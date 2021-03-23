@@ -1,0 +1,28 @@
+{
+	"name": "mepihindeveloper/php-database",
+	"description": "Component for working with a database",
+	"type": "library",
+	"license": "MIT",
+	"keywords": [
+		"component",
+		"class",
+		"php",
+		"database"
+	],
+	"authors": [
+		{
+			"name": "mepihindeveloper",
+			"email": "mepihindeveloper@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=7.4"
+	},
+	"autoload": {
+		"psr-4": {
+			"mepihindeveloper\\components\\": "src/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
