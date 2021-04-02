@@ -33,22 +33,36 @@ class Database implements interfaces\DatabaseInterface {
 	 * @var PDOStatement Подготовленный запрос
 	 */
 	protected PDOStatement $pdoStatement;
+	/**
+	 * @var array Настройки подключения
+	 */
+	protected array $settings;
+	
+	/**
+	 * Database constructor.
+	 *
+	 * @param array $databaseConnectionParams Параметры соединения
+	 */
+	public function __construct(array $databaseConnectionParams) {
+		$this->settings = $databaseConnectionParams;
+	}
 	
 	/**
 	 * @inheritDoc
 	 */
 	public function connect(array $databaseConnectionParams = []): void {
-		$dsn = "{$databaseConnectionParams['dbms']}:";
+		$connectionParams = array_merge($this->settings, $databaseConnectionParams);
+		$dsn = "{$connectionParams['dbms']}:";
 		
 		foreach (['host', 'dbname'] as $key) {
-			$dsn .= "{$key}={$databaseConnectionParams[$key]};";
+			$dsn .= "{$key}={$connectionParams[$key]};";
 		}
 		
-		$charset = array_key_exists('charset', $databaseConnectionParams) ? strtoupper($databaseConnectionParams['charset']) : 'UTF8';
+		$charset = array_key_exists('charset', $connectionParams) ? strtoupper($connectionParams['charset']) : 'UTF8';
 		$this->pdo = new PDO(
 			$dsn,
-			$databaseConnectionParams['user'],
-			$databaseConnectionParams['password']
+			$connectionParams['user'],
+			$connectionParams['password']
 		);
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
